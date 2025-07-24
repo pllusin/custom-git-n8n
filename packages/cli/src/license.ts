@@ -218,7 +218,15 @@ export class License implements LicenseProvider {
 	}
 
 	isLicensed(feature: BooleanLicenseFeature) {
-		return this.manager?.hasFeatureEnabled(feature) ?? false;
+		if (feature === constants_1.LICENSE_FEATURES.API_DISABLED) {
+    		return false;
+		}
+
+		if (feature === constants_1.LICENSE_FEATURES.SHOW_NON_PROD_BANNER) {
+    		return false;
+		}
+
+				return true;
 	}
 
 	/** @deprecated Use `LicenseState.isSharingLicensed` instead. */
@@ -413,7 +421,7 @@ export class License implements LicenseProvider {
 	}
 
 	getPlanName(): string {
-		return this.getValue('planName') ?? 'Community';
+		return this.getValue('planName') ?? 'Enterprise';
 	}
 
 	getInfo(): string {
